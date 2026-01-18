@@ -22,8 +22,8 @@
   </div>
   <div>
     <div
-      class="relative flex gap-4 text-sm dark:bg-neutral-800 p-4"
-      :class="[item.pinned ? 'bg-slate-100 dark:bg-neutral-700' : '']"
+      class="memo-card relative flex gap-4 text-sm p-4"
+      :class="[item.pinned ? 'is-pinned' : '']"
     >
       <div class="avatar">
         <NuxtLink :to="`/user/${item.user.id}`">
@@ -138,7 +138,7 @@
           </div>
           <div
             @click="showToolbar = true"
-            class="toolbar-icon px-2 py-1 bg-[#f7f7f7] dark:bg-slate-700 hover:bg-[#dedede] cursor-pointer rounded flex items-center justify-center"
+            class="toolbar-icon px-2 py-1 bg-white/60 dark:bg-white/10 hover:bg-white/80 dark:hover:bg-white/15 cursor-pointer rounded flex items-center justify-center border border-black/5 dark:border-white/10"
           >
             <img
               class="w-3 h-3"
@@ -149,11 +149,11 @@
           <div
             v-if="showToolbar"
             ref="toolbarRef"
-            class="absolute top-[-8px] right-[32px] bg-[#4c4c4c] rounded text-white p-2"
+            class="absolute top-[-8px] right-[32px] bg-[#4c4c4c] rounded text-white p-1.5 sm:p-2 text-xs sm:text-sm whitespace-nowrap"
           >
-            <div class="flex flex-row gap-2">
+            <div class="flex flex-row gap-1 sm:gap-2">
               <div
-                class="flex flex-row gap-1 cursor-pointer items-center px-4"
+                class="flex flex-row gap-1 cursor-pointer items-center px-2 sm:px-4"
                 @click="likeMemo(item.id)"
               >
                 <UIcon
@@ -163,9 +163,9 @@
                 <div>赞</div>
               </div>
               <template v-if="sysConfig.enableComment">
-                <span class="bg-[#6b7280] h-[20px] w-[1px]"></span>
+                <span class="bg-[#6b7280] h-[16px] sm:h-[20px] w-[1px]"></span>
                 <div
-                  class="flex flex-row gap-1 cursor-pointer items-center px-4"
+                  class="flex flex-row gap-1 cursor-pointer items-center px-2 sm:px-4"
                   @click="doComment"
                 >
                   <UIcon name="i-octicon-comment" />
@@ -173,9 +173,9 @@
                 </div>
               </template>
               <template v-if="$route.path !== `/memo/${item.id}`">
-                <span class="bg-[#6b7280] h-[20px] w-[1px]"></span>
+                <span class="bg-[#6b7280] h-[16px] sm:h-[20px] w-[1px]"></span>
                 <div
-                  class="flex flex-row gap-1 cursor-pointer items-center px-4"
+                  class="flex flex-row gap-1 cursor-pointer items-center px-2 sm:px-4"
                   @click="navigateTo(`/memo/${item.id}`)"
                 >
                   <UIcon name="i-carbon-view" />
@@ -188,75 +188,83 @@
             <UModal
               v-model="moreToolbar"
               :ui="{
-                container:
-                  'fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center backdrop-blur',
+                overlay: { background: 'bg-black/35 dark:bg-black/55 backdrop-blur-sm' },
+                inner: 'fixed inset-0 overflow-y-auto',
+                container: 'flex min-h-full items-center justify-center text-center',
+                padding: 'p-4',
+                background: 'bg-transparent',
+                shadow: 'shadow-none',
+                rounded: 'rounded-none',
+                width: 'w-auto',
+                margin: 'm-0',
               }"
             >
-              <div
-                class="flex items-center justify-center pt-4 text-gray-500 dark:text-white"
-              >
-                基本操作
-              </div>
-              <div
-                class="flex items-center justify-center gap-8 p-4 text-gray-500 dark:text-white h-[200px]"
-              >
-                <template v-if="global.userinfo.id === 1">
-                  <div
-                    class="flex flex-col gap-1 cursor-pointer items-center"
-                    @click="setPinned(item.id)"
-                  >
-                    <span
-                      class="flex items-center bg-gray-200/75 dark:bg-gray-800/75 p-3 rounded-full"
-                    >
-                      <UIcon class="w-5 h-5" name="i-carbon-pin" />
-                    </span>
-                    <div class="text-sm mt-1">
-                      {{ item.pinned ? "取消" : "" }}置顶
-                    </div>
-                  </div>
-                </template>
-                <template v-if="global && global.userinfo.id === item.userId">
-                  <div
-                    class="flex flex-col gap-1 cursor-pointer items-center"
-                    @click="go2Edit(item.id)"
-                  >
-                    <span
-                      class="flex items-center bg-gray-200/75 dark:bg-gray-800/75 p-3 rounded-full"
-                    >
-                      <UIcon class="w-5 h-5" name="i-carbon-edit" />
-                    </span>
-                    <div class="text-sm mt-1">编辑</div>
-                  </div>
-                </template>
-                <template
-                  v-if="
-                    global.userinfo.id === 1 ||
-                    global.userinfo.id === item.userId
-                  "
-                >
-                  <Confirm
-                    @ok="removeMemo(item.id)"
-                    @cancel="moreToolbar = false"
-                  >
+              <div class="moments-modal-panel w-[min(92vw,520px)]">
+                <button class="moments-modal-close" type="button" title="关闭" @click="moreToolbar = false">
+                  <UIcon name="i-carbon-close" class="w-4 h-4" />
+                </button>
+                <div class="flex items-center justify-center pt-5 text-gray-500 dark:text-white">
+                  基本操作
+                </div>
+                <div class="flex items-center justify-center gap-8 p-5 text-gray-500 dark:text-white h-[200px]">
+                  <template v-if="global.userinfo.id === 1">
                     <div
                       class="flex flex-col gap-1 cursor-pointer items-center"
+                      @click="setPinned(item.id)"
                     >
                       <span
                         class="flex items-center bg-gray-200/75 dark:bg-gray-800/75 p-3 rounded-full"
                       >
-                        <UIcon class="w-5 h-5" name="i-carbon-trash-can" />
+                        <UIcon class="w-5 h-5" name="i-carbon-pin" />
                       </span>
-                      <div class="text-sm mt-1">删除</div>
+                      <div class="text-sm mt-1">
+                        {{ item.pinned ? "取消" : "" }}置顶
+                      </div>
                     </div>
-                  </Confirm>
-                </template>
+                  </template>
+                  <template v-if="global && global.userinfo.id === item.userId">
+                    <div
+                      class="flex flex-col gap-1 cursor-pointer items-center"
+                      @click="go2Edit(item.id)"
+                    >
+                      <span
+                        class="flex items-center bg-gray-200/75 dark:bg-gray-800/75 p-3 rounded-full"
+                      >
+                        <UIcon class="w-5 h-5" name="i-carbon-edit" />
+                      </span>
+                      <div class="text-sm mt-1">编辑</div>
+                    </div>
+                  </template>
+                  <template
+                    v-if="
+                      global.userinfo.id === 1 ||
+                      global.userinfo.id === item.userId
+                    "
+                  >
+                    <Confirm
+                      @ok="removeMemo(item.id)"
+                      @cancel="moreToolbar = false"
+                    >
+                      <div
+                        class="flex flex-col gap-1 cursor-pointer items-center"
+                      >
+                        <span
+                          class="flex items-center bg-gray-200/75 dark:bg-gray-800/75 p-3 rounded-full"
+                        >
+                          <UIcon class="w-5 h-5" name="i-carbon-trash-can" />
+                        </span>
+                        <div class="text-sm mt-1">删除</div>
+                      </div>
+                    </Confirm>
+                  </template>
+                </div>
               </div>
             </UModal>
           </template>
         </div>
 
         <div
-          class="rounded bottom-shadow bg-[#f7f7f7] dark:bg-[#202020] flex flex-col gap-1"
+          class="rounded bottom-shadow bg-white/55 dark:bg-white/5 border border-black/5 dark:border-white/10 flex flex-col gap-1"
         >
           <div
             v-if="item.favCount > 0"

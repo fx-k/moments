@@ -1,7 +1,7 @@
 <template>
   <Header v-if="memos.length > 0" v-bind:user="memos[0].user" />
 
-  <div class="flex flex-col divide-y divide-[#C0BEBF]/20">
+  <div class="memo-list">
     <Memo v-bind:memo="memo" v-for="memo in memos" :key="memo.id" />
   </div>
   <div

@@ -1,0 +1,301 @@
+/* Modern “Moments” theme: WeChat-like but sleeker */
+
+:root {
+  --bg: #f6f7fb;
+  --bg2: #eef2ff;
+  --text: #0f172a;
+  --muted: rgba(15, 23, 42, 0.62);
+  --card: rgba(255, 255, 255, 0.82);
+  --cardSolid: #ffffff;
+  --border: rgba(15, 23, 42, 0.09);
+  --shadow: 0 20px 60px rgba(15, 23, 42, 0.14);
+  --shadowSm: 0 8px 24px rgba(15, 23, 42, 0.12);
+  --radius: 18px;
+  --accent: #64748b; /* slate */
+  --accent2: #94a3b8; /* slate */
+}
+
+/* color-mode module uses .dark on html by default */
+.dark {
+  --bg: #070a12;
+  --bg2: #0b1220;
+  --text: rgba(255, 255, 255, 0.92);
+  --muted: rgba(255, 255, 255, 0.62);
+  --card: rgba(20, 25, 35, 0.72);
+  --cardSolid: #0f172a;
+  --border: rgba(255, 255, 255, 0.10);
+  --shadow: 0 22px 70px rgba(0, 0, 0, 0.55);
+  --shadowSm: 0 10px 28px rgba(0, 0, 0, 0.45);
+  --accent: #cbd5e1;
+  --accent2: #94a3b8;
+}
+
+html,
+body {
+  height: 100%;
+  min-height: 100dvh;
+}
+
+html {
+  /* Prevent layout shift between pages with/without vertical scrollbars */
+  scrollbar-gutter: stable;
+}
+@supports not (scrollbar-gutter: stable) {
+  html {
+    overflow-y: scroll;
+  }
+}
+
+body {
+  color: var(--text);
+  background:
+    radial-gradient(900px 600px at 20% -10%, rgba(148, 163, 184, 0.20), transparent 55%),
+    radial-gradient(800px 520px at 110% 10%, rgba(99, 102, 241, 0.12), transparent 60%),
+    linear-gradient(180deg, var(--bg2), var(--bg));
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Desktop: keep the “ambient” background stable while scrolling (avoid “repeating stack” feeling) */
+@media (min-width: 640px) {
+  body {
+    background-attachment: fixed, fixed, fixed;
+  }
+}
+
+/* A subtle “cool” glow behind the centered app container */
+.app-shell {
+  min-height: 100dvh;
+  padding: 16px 12px 96px;
+}
+@media (max-width: 640px) {
+  .app-shell {
+    padding: 12px 10px 96px;
+  }
+}
+
+.app-container {
+  position: relative;
+  width: 100%;
+  max-width: 567px;
+  margin: 0 auto;
+  height: 100%;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: 0 14px 42px rgba(15, 23, 42, 0.12);
+  backdrop-filter: blur(14px);
+}
+.app-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  pointer-events: none;
+  z-index: 15;
+}
+
+/* Memo list/card */
+.memo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+}
+@media (max-width: 640px) {
+  .memo-list {
+    gap: 10px;
+    padding: 12px;
+  }
+}
+
+.memo-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: none;
+  backdrop-filter: blur(10px);
+  transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease,
+    background 140ms ease;
+}
+.memo-card.is-pinned {
+  border-color: rgba(99, 102, 241, 0.40);
+  background:
+    radial-gradient(700px 240px at 0% 0%, rgba(99, 102, 241, 0.16), transparent 55%),
+    radial-gradient(700px 240px at 100% 0%, rgba(168, 85, 247, 0.12), transparent 55%),
+    var(--card);
+}
+.dark .memo-card.is-pinned {
+  border-color: rgba(129, 140, 248, 0.34);
+  background:
+    radial-gradient(700px 240px at 0% 0%, rgba(129, 140, 248, 0.16), transparent 55%),
+    radial-gradient(700px 240px at 100% 0%, rgba(192, 132, 252, 0.12), transparent 55%),
+    var(--card);
+}
+
+/* Only add “lift” on devices that actually have hover */
+@media (hover: hover) and (pointer: fine) {
+  .memo-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.10);
+    border-color: rgba(15, 23, 42, 0.14);
+  }
+  .dark .memo-card:hover {
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.45);
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+}
+
+/* Header (cover area + topbar) */
+.moments-topbar {
+  backdrop-filter: blur(14px);
+  background: rgba(2, 6, 23, 0.24);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+}
+.moments-topbar.is-solid {
+  background: rgba(2, 6, 23, 0.50);
+}
+.dark .moments-topbar {
+  background: rgba(2, 6, 23, 0.48);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+}
+.dark .moments-topbar.is-solid {
+  background: rgba(2, 6, 23, 0.70);
+}
+
+.moments-icon-btn {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.10);
+  color: rgba(255, 255, 255, 0.95);
+  transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+}
+.moments-icon-btn:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+.moments-icon-btn:active {
+  transform: translateY(0);
+}
+
+.moments-actions-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--shadowSm);
+}
+.dark .moments-actions-pill {
+  background: rgba(2, 6, 23, 0.45);
+}
+
+/* Modal */
+.moments-modal-panel {
+  position: relative;
+  background: var(--cardSolid);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadowSm);
+  overflow: clip;
+}
+.dark .moments-modal-panel {
+  background: rgba(15, 23, 42, 0.80);
+}
+.moments-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  left: auto;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  color: rgba(15, 23, 42, 0.75);
+  z-index: 2;
+}
+.dark .moments-modal-close {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(2, 6, 23, 0.35);
+  color: rgba(255, 255, 255, 0.82);
+}
+.moments-modal-close:hover {
+  transform: translateY(-1px);
+}
+
+.moments-cover-media {
+  position: relative;
+}
+.moments-cover-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.42) 0%,
+    rgba(0, 0, 0, 0.18) 40%,
+    rgba(0, 0, 0, 0.08) 60%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  pointer-events: none;
+}
+
+/* Cover image sizing */
+.header-img {
+  height: 240px;
+  object-fit: cover;
+  object-position: center;
+}
+@media (max-width: 640px) {
+  .header-img {
+    height: 220px;
+  }
+}
+
+/* Make @nuxt/ui components feel closer to the theme */
+.prose,
+.markdown-content {
+  color: var(--text);
+}
+
+/* Toast (vue-sonner): move close button to the top-right in LTR */
+:where([data-sonner-toaster]) {
+  --width: min(92vw, 420px);
+  --toast-close-button-start: unset !important;
+  --toast-close-button-end: 0 !important;
+  --toast-close-button-transform: translate(35%, -35%) !important;
+}
+
+:where(html[dir=ltr]),
+:where([data-sonner-toaster][dir=ltr]) {
+  --toast-close-button-start: unset !important;
+  --toast-close-button-end: 0 !important;
+  --toast-close-button-transform: translate(35%, -35%) !important;
+}
+
+/* Force close button to the top-right even if library styles win */
+:where([data-sonner-toast]) :where([data-close-button="true"]) {
+  left: auto !important;
+  right: 0.5rem !important;
+  inset-inline-start: auto !important;
+  inset-inline-end: 0.5rem !important;
+}
+

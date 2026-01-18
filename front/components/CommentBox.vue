@@ -3,8 +3,8 @@
     <div class="relative">
       <UTextarea :rows="4" autofocus :placeholder="replyTo ? `回复给${replyTo}` : ''" v-model="state.content"/>
       <div class="flex gap-2 absolute right-3 bottom-2">
-        <UIcon v-if="!global.userinfo.token" class="text-[#9fc84a] w-6 h-6 cursor-pointer" name="i-carbon-user-avatar" @click="toggleUser"/>
-        <UIcon class="text-[#9fc84a] w-6 h-6 cursor-pointer select-none" name="i-carbon-face-satisfied" @click="toggleEmoji"/>
+        <UIcon v-if="!global.userinfo.token" class="text-slate-500 dark:text-white/60 w-6 h-6 cursor-pointer" name="i-carbon-user-avatar" @click="toggleUser"/>
+        <UIcon class="text-slate-500 dark:text-white/60 w-6 h-6 cursor-pointer select-none" name="i-carbon-face-satisfied" @click="toggleEmoji"/>
         <UButton class="cursor-pointer text-xs" color="white" @click="comment">发送</UButton>
       </div>
     </div>

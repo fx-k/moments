@@ -1,9 +1,39 @@
 <template>
-  <UPopover :ui="{base:'w-[350px] min-h-[350px]'}" :popper="{ arrow: true }" mode="click">
+  <UPopover
+    :ui="{
+      strategy: 'override',
+      wrapper: 'relative inline-flex',
+      trigger: 'inline-flex',
+      width: 'w-[min(92vw,420px)]',
+      background: 'bg-transparent',
+      ring: '',
+      rounded: '',
+      shadow: '',
+    }"
+    :popper="{ placement: 'bottom-start', overflowPadding: 12, strategy: 'absolute' }"
+    mode="click"
+  >
     <UIcon name="i-carbon-music" class="cursor-pointer w-6 h-6"/>
     <template #panel="{close}">
-      <div class="p-4 flex flex-col gap-2 max-h-[400px] overflow-auto">
-        <UTabs :items="items" class="w-full">
+      <div class="moments-modal-panel w-full">
+        <button class="moments-modal-close" type="button" title="关闭" @click="close()">
+          <UIcon name="i-carbon-close" class="w-4 h-4" />
+        </button>
+        <div class="p-4 flex flex-col gap-3 text-sm leading-5 max-h-[70vh] overflow-auto">
+        <UTabs
+          :items="items"
+          class="w-full"
+          :ui="{
+            wrapper: 'relative space-y-2',
+            list: {
+              height: 'h-8',
+              padding: 'p-0.5',
+              rounded: 'rounded-xl',
+              tab: { height: 'h-7', padding: 'px-2', size: 'text-xs', rounded: 'rounded-lg' },
+              marker: { wrapper: 'absolute top-[2px] left-[2px] duration-200 ease-out focus:outline-none', rounded: 'rounded-lg' },
+            },
+          }"
+        >
           <template #musicID="{ item }">
             <UFormGroup label="选择平台" :ui="{label:{base:'font-bold'}}">
               <template #hint>
@@ -33,11 +63,12 @@
         <MusicPreview v-if="previewing" :id="id" :server="server" :type="type" :api="api"/>
 
         <div class="flex gap-2">
-          <UButton color="indigo" variant="solid" @click="preview(close)" :disabled="previewLoading"
+          <UButton color="gray" variant="solid" @click="preview(close)" :disabled="previewLoading"
                    :loading="previewLoading">预览
           </UButton>
           <UButton @click="confirm(close)">确定</UButton>
           <UButton color="white" @click="reset(close)">清空</UButton>
+        </div>
         </div>
       </div>
     </template>

@@ -116,18 +116,30 @@
   <UModal
     v-model="showCleanFileModal"
     :ui="{
-      container:
-        'flex justify-center items-center backdrop-blur',
+      overlay: { background: 'bg-black/35 dark:bg-black/55 backdrop-blur-sm' },
+      inner: 'fixed inset-0 overflow-y-auto',
+      padding: 'p-4',
+      container: 'flex min-h-full items-center justify-center text-center',
+      background: 'bg-transparent',
+      shadow: 'shadow-none',
+      rounded: 'rounded-none',
+      width: 'w-auto',
+      margin: 'm-0',
     }"
   >
-    <div class="p-4 bg-white dark:bg-neutral-800 rounded-lg shadow-md">
-      <p class="text-lg font-bold mb-2">谨慎操作</p>
-      <p class="text-gray-600 mb-4">确认要清理未使用的文件（图片、视频）吗？清理后，文件将被移动到 {uploadDir}/removed 目录下，请在检查后手动删除文件以释放空间。</p>
-      <div class="flex justify-end gap-2 mt-4">
-        <UButton color="white" @click="showCleanFileModal = false">取消</UButton>
-        <UButton @click="cleanFile">确认清理</UButton>
-      </div>
+    <div class="moments-modal-panel w-[min(92vw,520px)]">
+      <button class="moments-modal-close" type="button" title="关闭" @click="showCleanFileModal = false">
+        <UIcon name="i-carbon-close" class="w-4 h-4" />
+      </button>
+      <div class="p-5 max-h-[80vh] overflow-auto">
+        <p class="text-lg font-bold mb-2">谨慎操作</p>
+        <p class="text-gray-600 dark:text-gray-300 mb-4">确认要清理未使用的文件（图片、视频）吗？清理后，文件将被移动到 {uploadDir}/removed 目录下，请在检查后手动删除文件以释放空间。</p>
+        <div class="flex justify-end gap-2 mt-4">
+          <UButton color="white" @click="showCleanFileModal = false">取消</UButton>
+          <UButton @click="cleanFile">确认清理</UButton>
         </div>
+      </div>
+    </div>
   </UModal>
 </template>
 

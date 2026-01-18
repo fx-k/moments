@@ -1,6 +1,6 @@
 <template>
   <div class="px-4 space-y-2">
-    <div class="flex justify-between items-center pt-4 text-gray-600">
+    <div class="moments-topbar is-solid sticky top-0 z-10 -mx-4 px-4 py-3 flex justify-between items-center text-white rounded-t-[18px]">
       <NuxtLink class="flex items-center" title="返回主页">
         <UIcon @click="navigateTo('/')" name="i-carbon-chevron-left" class="w-5 h-5 cursor-pointer mr-4"/>
         <span v-if="$route.path==='/new'">新增内容</span>
@@ -8,7 +8,7 @@
       </NuxtLink>
       <UButton @click="saveMemo">发表</UButton>
     </div>
-    <div class="flex gap-2 text-lg text-gray-600 pt-4 ">
+    <div class="flex gap-2 text-lg text-slate-700 dark:text-white/85 pt-3">
       <ExternalUrl v-model:favicon="state.externalFavicon" v-model:title="state.externalTitle"
                    v-model:url="state.externalUrl"/>
 
@@ -16,17 +16,37 @@
       <music v-bind="state.music" @confirm="updateMusic"/>
       <upload-video @confirm="handleVideo" v-bind="state.video"/>
       <douban-edit v-model:type="doubanType" v-model:data="doubanData"/>
-      <UPopover :popper="{ arrow: true }" mode="click">
+      <UPopover
+        :ui="{
+          strategy: 'override',
+          wrapper: 'relative inline-flex',
+          trigger: 'inline-flex',
+          width: 'w-[min(92vw,360px)]',
+          background: 'bg-transparent',
+          ring: '',
+          rounded: '',
+          shadow: '',
+        }"
+        :popper="{ placement: 'bottom-start', overflowPadding: 12, strategy: 'absolute' }"
+        mode="click"
+      >
         <UIcon name="i-carbon-calendar" class="w-6 h-6" title="自定义时间"/>
         <template #panel="{close}">
-          <DatePicker
-            v-model="state.createdAt"
-            mode="datetime"
-            is24hr
-            :time-accuracy="2"
-            :rules="{ seconds: 0 }"
-            @close="close"
-          />
+          <div class="moments-modal-panel w-full">
+            <button class="moments-modal-close" type="button" title="关闭" @click="close()">
+              <UIcon name="i-carbon-close" class="w-4 h-4" />
+            </button>
+            <div class="p-3 max-h-[70vh] overflow-auto">
+              <DatePicker
+                v-model="state.createdAt"
+                mode="datetime"
+                is24hr
+                :time-accuracy="2"
+                :rules="{ seconds: 0 }"
+                @close="close"
+              />
+            </div>
+          </div>
         </template>
       </UPopover>
       <UIcon name="i-carbon-text-clear-format" @click="reset" class="w-6 h-6 cursor-pointer" title="清空"></UIcon>
@@ -35,13 +55,16 @@
     <div class="w-full" @contextmenu.prevent="onContextMenu">
       <div class="relative">
         <UTextarea ref="contentRef" v-model="state.content" :rows="8" autoresize padded autofocus/>
-        <UIcon class="text-[#9fc84a] w-6 h-6 animate-bounce absolute right-2 bottom-1 cursor-pointer select-none" name="i-carbon-face-satisfied" @click="toggleEmoji"/>
+        <UIcon class="text-slate-500 dark:text-white/60 w-6 h-6 animate-bounce absolute right-2 bottom-1 cursor-pointer select-none" name="i-carbon-face-satisfied" @click="toggleEmoji"/>
       </div>
 
       <Emoji v-if="emojiShow" @selected="emojiSelected" @close="emojiShow=false"/>
 
       <USelectMenu v-model="selectedLabel" :options="existTags" show-create-option-when="always"
-                   multiple searchable creatable placeholder="选择标签" class="my-2" >
+                   multiple searchable creatable placeholder="选择标签" class="my-2"
+                   :uiMenu="{ height: 'max-h-[50vh]' }"
+                   :popper="{ placement: 'bottom-start', overflowPadding: 12, strategy: 'absolute' }"
+      >
         <template #label>
           <span v-if="selectedLabel.length" class="truncate">{{ selectedLabel.join(',') }}</span>
           <span v-else>选择标签</span>
@@ -60,17 +83,35 @@
 
     <div class="flex justify-between items-center">
       <div class="flex flex-row gap-1 items-center text-[#576b95] text-sm cursor-pointer">
-        <UPopover :popper="{ arrow: true }" mode="click">
+        <UPopover
+          :ui="{
+            strategy: 'override',
+            wrapper: 'relative inline-flex',
+            trigger: 'inline-flex',
+            width: 'w-[min(92vw,360px)]',
+            background: 'bg-transparent',
+            ring: '',
+            rounded: '',
+            shadow: '',
+          }"
+          :popper="{ placement: 'top-start', overflowPadding: 12, strategy: 'absolute' }"
+          mode="click"
+        >
           <div class="flex items-center gap-1">
             <UIcon name="i-carbon-location"/>
             <span>{{ state.location ? locationLabel : '自定义位置' }}</span>
           </div>
           <template #panel="{close}">
-            <div class="p-4">
-              <UButtonGroup>
-                <UInput v-model="state.location" placeholder="自定义位置,空格分隔"/>
-                <UButton @click="close" color="white" variant="solid">关闭</UButton>
-              </UButtonGroup>
+            <div class="moments-modal-panel w-full">
+              <button class="moments-modal-close" type="button" title="关闭" @click="close()">
+                <UIcon name="i-carbon-close" class="w-4 h-4" />
+              </button>
+              <div class="p-4 max-h-[60vh] overflow-auto">
+                <UButtonGroup>
+                  <UInput v-model="state.location" placeholder="自定义位置,空格分隔"/>
+                  <UButton @click="close" color="white" variant="solid">关闭</UButton>
+                </UButtonGroup>
+              </div>
             </div>
           </template>
         </UPopover>

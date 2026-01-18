@@ -1,10 +1,27 @@
 <template>
-  <UPopover :popper="{ arrow: true }" mode="click">
+  <UPopover
+    :ui="{
+      strategy: 'override',
+      wrapper: 'relative inline-flex',
+      trigger: 'inline-flex',
+      width: 'w-[min(92vw,380px)]',
+      background: 'bg-transparent',
+      ring: '',
+      rounded: '',
+      shadow: '',
+    }"
+    :popper="{ placement: 'bottom-start', overflowPadding: 12, strategy: 'absolute' }"
+    mode="click"
+  >
     <UIcon name="i-carbon-link" class="w-6 h-6"/>
     <template #panel="{close}">
-      <div class="p-4 flex flex-col gap-2">
+      <div class="moments-modal-panel w-full">
+        <button class="moments-modal-close" type="button" title="关闭" @click="close()">
+          <UIcon name="i-carbon-close" class="w-4 h-4" />
+        </button>
+        <div class="p-4 flex flex-col gap-3 text-sm leading-5 max-h-[70vh] overflow-auto">
         <UInput v-model="url" placeholder="请输入分享的链接"/>
-        <UButtonGroup>
+        <UButtonGroup size="sm">
           <UInput v-model="title" placeholder="请输入分享的标题"/>
           <UButton color="white" variant="solid" @click="getFavicon" :disabled="pending"
                    :loading="pending">自动获取标题
@@ -16,10 +33,11 @@
         </div>
 
         <div class="w-fit ">
-          <UButtonGroup>
+          <UButtonGroup size="sm">
             <UButton @click="confirmExternalUrl(close)">确定</UButton>
             <UButton color="white" variant="solid" @click="clear(close)">清空并关闭</UButton>
           </UButtonGroup>
+        </div>
         </div>
       </div>
     </template>

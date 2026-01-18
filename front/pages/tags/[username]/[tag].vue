@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header :user="user" v-if="user"/>
-    <div class="flex flex-col divide-y divide-[#C0BEBF]/20 ">
+    <div class="memo-list">
       <Memo v-bind:memo="m" v-for="m in memos" :key="m.id" />
     </div>
     <div ref="loadMoreEle" class="text-xs text-center text-gray-500 py-2" @click="loadMore" v-if="hasNext">

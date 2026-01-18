@@ -4,27 +4,42 @@
 
     <div class="p-4 space-y-4">
       <UFormGroup label="日期范围" name="contentContains" :ui="{label:{base:'font-bold'}}">
-        <UPopover :popper="{ placement: 'bottom-start' }">
+        <UPopover
+          :ui="{
+            strategy: 'override',
+            width: 'w-[min(92vw,420px)]',
+            background: 'bg-transparent',
+            ring: '',
+            rounded: '',
+            shadow: '',
+          }"
+          :popper="{ placement: 'bottom-start', overflowPadding: 12, strategy: 'absolute' }"
+        >
           <UButton icon="i-heroicons-calendar-days-20-solid" color="white" variant="solid" class="w-full">
             从 {{ format(state.range.start, 'yyy-MM-dd') }} 到 {{ format(state.range.end, 'yyy-MM-dd') }}
           </UButton>
 
           <template #panel="{ close }">
-            <div class="flex flex-col items-center sm:divide-x divide-gray-200 dark:divide-gray-800">
-              <div class="hidden sm:flex flex-row py-4">
+            <div class="moments-modal-panel w-full">
+              <button class="moments-modal-close" type="button" title="关闭" @click="close()">
+                <UIcon name="i-carbon-close" class="w-4 h-4" />
+              </button>
+              <div class="flex flex-col items-center sm:divide-x divide-gray-200 dark:divide-gray-800 p-3 max-h-[80vh] overflow-auto">
+              <div class="hidden sm:flex flex-row py-2">
                 <UButton
                     v-for="(range, index) in ranges"
                     :key="index"
                     :label="range.label"
                     color="gray"
                     variant="ghost"
-                    class="rounded-none px-6"
+                    class="rounded-none px-3 text-xs"
                     :class="[isRangeSelected(range.duration) ? 'bg-gray-100 dark:bg-gray-800' : 'hover:bg-gray-50 dark:hover:bg-gray-800/50']"
                     truncate
                     @click="selectRange(range.duration)"
                 />
               </div>
-              <DatePicker v-model="state.range" @close="close"/>
+              <DatePicker v-model="state.range" :columns="1" @close="close"/>
+              </div>
             </div>
           </template>
         </UPopover>
@@ -34,7 +49,14 @@
         <UInput v-model="state.contentContains"/>
       </UFormGroup>
       <UFormGroup label="包含标签" name="tagContains" :ui="{label:{base:'font-bold'}}">
-        <USelectMenu multiple v-model="state.tags" searchable :options="tags">
+        <USelectMenu
+          multiple
+          v-model="state.tags"
+          searchable
+          :options="tags"
+          :uiMenu="{ height: 'max-h-[50vh]' }"
+          :popper="{ placement: 'bottom-start', overflowPadding: 12, strategy: 'absolute' }"
+        >
           <template #label>
             <span v-if="state.tags.length" class="truncate">{{ state.tags.join(', ') }}</span>
             <span v-else>选择标签</span>
@@ -42,14 +64,29 @@
         </USelectMenu>
       </UFormGroup>
       <UFormGroup label="可见性" name="showType" :ui="{label:{base:'font-bold'}}">
-        <USelectMenu v-model="state.showType"
-                     :options="[{value:-1,label:'所有的'},{value:1,label:'公开的'},{value:0,label:'自己可见'}]"
-                     option-attribute="label" value-attribute="value"/>
+        <USelectMenu
+          v-model="state.showType"
+          :options="[
+            { value: -1, label: '所有的' },
+            { value: 1, label: '公开的' },
+            { value: 0, label: '自己可见' },
+          ]"
+          option-attribute="label"
+          value-attribute="value"
+          :popper="{ placement: 'bottom-start', overflowPadding: 12, strategy: 'absolute' }"
+        >
+          <template #label>
+            <span v-if="state.showType === -1">所有的</span>
+            <span v-else-if="state.showType === 1">公开的</span>
+            <span v-else-if="state.showType === 0">自己可见</span>
+            <span v-else>选择可见性</span>
+          </template>
+        </USelectMenu>
       </UFormGroup>
       <UButton class="my-2" @click="reload">搜索</UButton>
     </div>
 
-    <div class="flex flex-col divide-y divide-[#C0BEBF]/20 ">
+    <div class="memo-list">
       <Memo v-bind:memo="m" v-for="m in memos" :key="m.id"/>
     </div>
     <div ref="loadMoreEle" class="text-xs text-center text-gray-500 py-2" @click="loadMore" v-if="hasNext">

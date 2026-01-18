@@ -1,5 +1,18 @@
 <template>
-  <UPopover :ui="{base:'w-[300px]'}" :popper="{ arrow: true }" mode="click">
+  <UPopover
+    :ui="{
+      strategy: 'override',
+      wrapper: 'relative inline-flex',
+      trigger: 'inline-flex',
+      width: 'w-[min(92vw,360px)]',
+      background: 'bg-transparent',
+      ring: '',
+      rounded: '',
+      shadow: '',
+    }"
+    :popper="{ placement: 'bottom-start', overflowPadding: 12, strategy: 'absolute' }"
+    mode="click"
+  >
     <svg class="focus:outline-0 cursor-pointer w-6 h-6" xmlns="http://www.w3.org/2000/svg"
          viewBox="0 0 24 24" fill="currentColor" data-state="closed">
       <path
@@ -7,17 +20,22 @@
       ></path>
     </svg>
     <template #panel="{close}">
-      <div class="p-4 flex flex-col gap-2">
+      <div class="moments-modal-panel w-full">
+        <button class="moments-modal-close" type="button" title="关闭" @click="close()">
+          <UIcon name="i-carbon-close" class="w-4 h-4" />
+        </button>
+        <div class="p-4 flex flex-col gap-3 text-sm leading-5 max-h-[70vh] overflow-auto">
         <URadioGroup
             legend="选择类型"
             v-model="type"
             :options="[{ value: 'book', label: '豆瓣读书' }, { value: 'movie', label: '豆瓣电影' }]"
         />
         <UInput v-model="data.id" type="text" size="sm" placeholder="请输入豆瓣读书/豆瓣电影的ID"/>
-        <UButtonGroup>
+        <UButtonGroup size="sm">
           <UButton @click="doParse(close)" :disabled="pending" :loading="pending">确定</UButton>
           <UButton color="white" @click="reset(close)">清空并关闭</UButton>
         </UButtonGroup>
+        </div>
       </div>
     </template>
   </UPopover>

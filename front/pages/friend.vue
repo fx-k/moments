@@ -46,13 +46,24 @@
   <UModal
     v-model="showAddModal"
     :ui="{
-      container:
-        'fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center backdrop-blur',
+      overlay: { background: 'bg-black/35 dark:bg-black/55 backdrop-blur-sm' },
+      inner: 'fixed inset-0 overflow-y-auto',
+      container: 'flex min-h-full items-center justify-center text-center',
+      padding: 'p-4',
+      background: 'bg-transparent',
+      shadow: 'shadow-none',
+      rounded: 'rounded-none',
+      width: 'w-auto',
+      margin: 'm-0',
     }"
   >
-    <div class="p-4">
-      <p class="text-center text-lg font-bold mb-2">添加友情链接</p>
-      <UForm class="space-y-4" size="sm" :state="friend">
+    <div class="moments-modal-panel w-[min(92vw,520px)] mx-auto">
+      <button class="moments-modal-close" type="button" title="关闭" @click="showAddModal = false">
+        <UIcon name="i-carbon-close" class="w-4 h-4" />
+      </button>
+      <div class="p-5 max-h-[80vh] overflow-auto">
+        <p class="text-center text-lg font-bold mb-3">添加友情链接</p>
+        <UForm class="space-y-4 w-full" size="sm" :state="friend">
         <UFormGroup
           label="名称"
           name="name"
@@ -92,23 +103,36 @@
           <UButton color="white" @click="showAddModal = false">取消</UButton>
           <UButton @click="addFriend">确认添加</UButton>
         </div>
-      </UForm>
+        </UForm>
+      </div>
     </div>
   </UModal>
 
   <UModal
     v-model="showDeleteModal"
     :ui="{
-      container:
-        'fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center',
+      overlay: { background: 'bg-black/35 dark:bg-black/55 backdrop-blur-sm' },
+      inner: 'fixed inset-0 overflow-y-auto',
+      container: 'flex min-h-full items-center justify-center text-center',
+      padding: 'p-4',
+      background: 'bg-transparent',
+      shadow: 'shadow-none',
+      rounded: 'rounded-none',
+      width: 'w-auto',
+      margin: 'm-0',
     }"
   >
-    <div class="p-4 bg-white dark:bg-neutral-800 rounded-lg shadow-md">
-      <p class="text-center text-lg font-bold mb-2">确认删除</p>
-      <p class="text-gray-600 mb-4">你确定要删除这个友情链接吗？</p>
-      <div class="flex justify-end gap-2 mt-4">
-        <UButton color="white" @click="cancelDelete">取消</UButton>
-        <UButton @click="deleteFriend(friendIdToDelete)">确认删除</UButton>
+    <div class="moments-modal-panel w-[min(92vw,520px)] mx-auto">
+      <button class="moments-modal-close" type="button" title="关闭" @click="cancelDelete">
+        <UIcon name="i-carbon-close" class="w-4 h-4" />
+      </button>
+      <div class="p-5 max-h-[80vh] overflow-auto">
+        <p class="text-center text-lg font-bold mb-2">确认删除</p>
+        <p class="text-gray-600 dark:text-gray-300 mb-4">你确定要删除这个友情链接吗？</p>
+        <div class="flex justify-end gap-2 mt-4">
+          <UButton color="white" @click="cancelDelete">取消</UButton>
+          <UButton @click="deleteFriend(friendIdToDelete)">确认删除</UButton>
+        </div>
       </div>
     </div>
   </UModal>

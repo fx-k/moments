@@ -1,9 +1,26 @@
 <template>
-  <UPopover :popper="{ arrow: true }" mode="click">
+  <UPopover
+    :ui="{
+      strategy: 'override',
+      wrapper: 'relative inline-flex',
+      trigger: 'inline-flex',
+      width: 'w-[min(92vw,360px)]',
+      background: 'bg-transparent',
+      ring: '',
+      rounded: '',
+      shadow: '',
+    }"
+    :popper="{ placement: 'bottom-start', overflowPadding: 12, strategy: 'absolute' }"
+    mode="click"
+  >
     <UIcon name="i-carbon-image" class="cursor-pointer w-6 h-6" />
     <template #panel="{ close }">
-      <div class="p-4 flex flex-col gap-2">
-        <div class="text-xs text-gray-400">本地上传</div>
+      <div class="moments-modal-panel w-full">
+        <button class="moments-modal-close" type="button" title="关闭" @click="close()">
+          <UIcon name="i-carbon-close" class="w-4 h-4" />
+        </button>
+        <div class="p-4 flex flex-col gap-3 text-sm leading-5 max-h-[70vh] overflow-auto">
+        <div class="text-xs text-gray-400 leading-5">本地上传</div>
         <UInput type="file" size="sm" icon="i-heroicons-folder" accept="image/*" @change="upload" multiple />
 
         <template v-for="img, i in imgList" :key="img">
@@ -18,14 +35,15 @@
           <UIcon name="i-heroicons-plus-16-solid" class="w-6 h-6" @click="addImg" />
         </div>
 
-        <p v-if="filename" class="text-xs text-gray-400">正在上传({{ current }}/{{ total }})</p>
-        <p v-if="filename" class="text-xs text-gray-400">{{ filename }}</p>
+        <p v-if="filename" class="text-xs text-gray-400 leading-5">正在上传({{ current }}/{{ total }})</p>
+        <p v-if="filename" class="text-xs text-gray-400 leading-5">{{ filename }}</p>
         <UProgress :value="progress" v-if="progress > 0" indicator />
 
-        <UButtonGroup class="w-fit">
+        <UButtonGroup size="sm" class="w-fit">
           <UButton @click="close()">确定</UButton>
           <UButton color="white" @click="clear(close)">清空并关闭</UButton>
         </UButtonGroup>
+        </div>
       </div>
     </template>
   </UPopover>
