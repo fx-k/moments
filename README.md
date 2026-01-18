@@ -14,6 +14,11 @@
 > **Docker 镜像**：
 > 
 > 本仓库已自动构建至阿里云： `docker pull registry.cn-hongkong.aliyuncs.com/fxitltd/moments:dev`
+>
+> **如何删除/替换Footer信息**：
+> - 打开 `front/components/Footer.vue`
+> - 删除或替换其中的主站链接按钮（`href="https://keke.su"`），即可移除“主站”入口（你也可以改成自己的域名）
+> - 如需同时替换仓库链接，把 `href="https://github.com/fx-k/moments.git"` 改成你的仓库地址即可
 
 ---
 ---
