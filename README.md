@@ -1,5 +1,18 @@
 # Moments - 极简朋友圈
 
+> **Fork 说明**：本仓库为 Fork 版本，基于原作者仓库 [kingwrcy/moments](https://github.com/kingwrcy/moments) 的 `dev` 分支。
+>
+> **修改内容**：
+> - 前端 UI / 交互整体重做：更现代的主题、布局与细节
+> - Header 与移动端体验优化：减少突兀元素、提升一致性与可用性
+> - 弹窗 / Popover / Toast 统一：样式统一、补充关闭按钮与滚动可见性等
+
+## 截图
+
+
+
+## 以下是原版Readme
+
 [![release](https://img.shields.io/badge/release-更新记录-blue)](https://github.com/kingwrcy/moments/releases)
 [![docker-release-status](https://img.shields.io/github/actions/workflow/status/kingwrcy/moments/docker-image-release.yml)](https://github.com/kingwrcy/moments/actions/workflows/docker-image-release.yml)
 [![docker-pull](https://img.shields.io/docker/pulls/kingwrcy/moments)](https://hub.docker.com/repository/docker/kingwrcy/moments)
