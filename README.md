@@ -9,6 +9,9 @@
 
 <img width="809" height="909" alt="Snipaste_2026-01-18_21-20-55" src="https://github.com/user-attachments/assets/d4bbd1ff-cfa1-45f4-aa6a-1072330f1711" />
 
+> **Docker 镜像**
+> docker pull registry.cn-hongkong.aliyuncs.com/fxitltd/moments:latest
+
 ---
 ---
 
