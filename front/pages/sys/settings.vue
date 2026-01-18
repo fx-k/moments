@@ -1,10 +1,6 @@
 <template>
   <Header :user="currentUser"/>
   <div class="space-y-4  flex flex-col p-4 my-4 dark:bg-neutral-800">
-    <div class="flex flex-col items-end text-xs text-gray-400">
-      <div v-if="version" class="w-32">版本号: {{ version }}</div>
-      <div v-if="commitId" class="w-32">commitId: {{ commitId }}</div>
-    </div>
     <UFormGroup label="管理员账号" name="adminUserName" :ui="{label:{base:'font-bold'}}">
       <UInput v-model="state.adminUserName"/>
     </UFormGroup>
