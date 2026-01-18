@@ -6,11 +6,14 @@
 > - 前端 UI / 交互整体重做：更现代的主题、布局与细节
 > - Header 与移动端体验优化：减少突兀元素、提升一致性与可用性
 > - 弹窗 / Popover / Toast 统一：样式统一、补充关闭按钮与滚动可见性等
-
-<img width="809" height="909" alt="Snipaste_2026-01-18_21-20-55" src="https://github.com/user-attachments/assets/d4bbd1ff-cfa1-45f4-aa6a-1072330f1711" />
-
-> **Docker 镜像**
-> docker pull registry.cn-hongkong.aliyuncs.com/fxitltd/moments:latest
+>
+> **预览**：
+>
+> <img width="509" height="609" alt="Snipaste_2026-01-18_21-20-55" src="https://github.com/user-attachments/assets/d4bbd1ff-cfa1-45f4-aa6a-1072330f1711" />
+>
+> **Docker 镜像**：
+> 
+> 本仓库已自动构建至阿里云： `docker pull registry.cn-hongkong.aliyuncs.com/fxitltd/moments:dev`
 
 ---
 ---
