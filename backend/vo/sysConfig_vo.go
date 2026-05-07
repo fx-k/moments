@@ -22,6 +22,7 @@ type SysConfigVO struct {
 	EnableGoogleRecaptcha  bool   `json:"enableGoogleRecaptcha"`      //是否启用google recaptcha
 	GoogleSiteKey          string `json:"googleSiteKey,omitempty"`    //google recaptcha siteKey
 	EnableComment          bool   `json:"enableComment"`              //是否启用评论
+	CommentEmoticonJson    string `json:"commentEmoticonJson"`        //评论表情包JSON地址
 	MaxCommentLength       int    `json:"maxCommentLength,omitempty"` //发言最大长度
 	MemoMaxHeight          int    `json:"memoMaxHeight,omitempty"`    //单个memo的最大高度,单位px
 	CommentOrder           string `json:"commentOrder,omitempty"`     //评论展示的顺序,asc:顺序,desc:逆序
@@ -47,6 +48,7 @@ type FullSysConfigVO struct {
 	GoogleSiteKey          string `json:"googleSiteKey,omitempty"`    //google recaptcha siteKey
 	GoogleSecretKey        string `json:"googleSecretKey,omitempty"`  //google recaptcha secretKey
 	EnableComment          bool   `json:"enableComment"`              //是否启用评论
+	CommentEmoticonJson    string `json:"commentEmoticonJson"`        //评论表情包JSON地址
 	MaxCommentLength       int    `json:"maxCommentLength,omitempty"` //发言最大长度
 	MemoMaxHeight          int    `json:"memoMaxHeight,omitempty"`    //单个memo的最大高度,单位px
 	CommentOrder           string `json:"commentOrder,omitempty"`     //评论展示的顺序,asc:顺序,desc:逆序

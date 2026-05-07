@@ -15,6 +15,8 @@ type SysConfigHandler struct {
 	base BaseHandler
 }
 
+const defaultCommentEmoticonJson = "https://cdn.jsdelivr.net/gh/ArtalkJS/Emoticons/grps/default.json"
+
 func NewSysConfigHandler(injector do.Injector) *SysConfigHandler {
 	return &SysConfigHandler{do.MustInvoke[BaseHandler](injector)}
 }
@@ -43,6 +45,9 @@ func (s SysConfigHandler) GetConfig(c echo.Context) error {
 	}
 	result.Version = s.base.cfg.Version
 	result.CommitId = s.base.cfg.CommitId
+	if result.CommentEmoticonJson == "" {
+		result.CommentEmoticonJson = defaultCommentEmoticonJson
+	}
 
 	suffix := result.S3.ThumbnailSuffix
 	result.S3 = vo.S3VO{
@@ -81,6 +86,9 @@ func (s SysConfigHandler) GetFullConfig(c echo.Context) error {
 	}
 	result.Version = s.base.cfg.Version
 	result.CommitId = s.base.cfg.CommitId
+	if result.CommentEmoticonJson == "" {
+		result.CommentEmoticonJson = defaultCommentEmoticonJson
+	}
 	return SuccessResp(c, result)
 }
 

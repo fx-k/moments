@@ -72,6 +72,7 @@ export type SysConfigVO = {
     enableGoogleRecaptcha: boolean,
     googleSiteKey: string,
     enableComment: boolean,
+    commentEmoticonJson: string,
     maxCommentLength: number,
     memoMaxHeight: number,
     commentOrder: 'desc' | 'asc',

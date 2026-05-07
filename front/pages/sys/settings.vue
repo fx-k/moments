@@ -20,6 +20,16 @@
     <UFormGroup label="是否启用评论" name="enableComment" :ui="{label:{base:'font-bold'}}">
       <UToggle v-model="state.enableComment"/>
     </UFormGroup>
+    <UFormGroup label="评论表情包 JSON 地址" name="commentEmoticonJson" :ui="{label:{base:'font-bold'}}">
+      <UTextarea
+        v-model="state.commentEmoticonJson"
+        :rows="2"
+        placeholder="https://cdn.jsdelivr.net/gh/ArtalkJS/Emoticons/grps/default.json"
+      />
+      <UButton size="xs" color="white" class="mt-2" @click="resetCommentEmoticonJson">
+        使用默认 Artalk 表情包
+      </UButton>
+    </UFormGroup>
     <UFormGroup label="是否开启注册用户" name="enableRegister" :ui="{label:{base:'font-bold'}}">
       <UToggle v-model="state.enableRegister"/>
     </UFormGroup>
@@ -143,6 +153,7 @@
 import type {SysConfigVO, UserVO} from "~/types";
 import {toast} from "vue-sonner";
 import {useUpload} from "~/utils";
+import {DEFAULT_ARTALK_EMOTICON_URL} from "~/utils/artalkEmoticons";
 
 const currentUser = useState<UserVO>('userinfo')
 const version = ref('')
@@ -153,6 +164,7 @@ const state = reactive({
   googleSecretKey:"",
   enableAutoLoadNextPage: true,
   enableComment: true,
+  commentEmoticonJson: DEFAULT_ARTALK_EMOTICON_URL,
   enableRegister: true,
   maxCommentLength: 120,
   memoMaxHeight: 300,
@@ -188,6 +200,9 @@ const reload = async () => {
   const res = await useMyFetch<SysConfigVO>('/sysConfig/getFull')
   if (res) {
     Object.assign(state, res)
+    if (!state.commentEmoticonJson) {
+      state.commentEmoticonJson = DEFAULT_ARTALK_EMOTICON_URL
+    }
     version.value = res.version
     commitId.value = res.commitId
   }
@@ -197,6 +212,10 @@ const save = async () => {
   await useMyFetch('/sysConfig/save', state)
   toast.success("保存成功")
   location.reload()
+}
+
+const resetCommentEmoticonJson = () => {
+  state.commentEmoticonJson = DEFAULT_ARTALK_EMOTICON_URL
 }
 
 const uploadFavicon = async (files: FileList) => {

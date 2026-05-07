@@ -8,7 +8,7 @@
         <UButton class="cursor-pointer text-xs" color="white" @click="comment">发送</UButton>
       </div>
     </div>
-    <Emoji v-if="emojiShow" @selected="emojiSelected"/>
+    <Emoji v-if="emojiShow" allow-images @selected="emojiSelected"/>
     <div v-if="userShow" class="flex gap-1">
       <template v-if="!global.userinfo.token">
         <UInput placeholder="姓名" v-model="state.username"/>

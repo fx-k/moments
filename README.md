@@ -6,6 +6,7 @@
 > - 前端 UI / 交互整体重做：更现代的主题、布局与细节
 > - Header 与移动端体验优化：减少突兀元素、提升一致性与可用性
 > - 弹窗 / Popover / Toast 统一：样式统一、补充关闭按钮与滚动可见性等
+> - 表情包升级：评论输入与内容编辑支持加载 Artalk / OwO 表情包，评论和 Memo 正文支持图片表情展示
 >
 > **预览**：
 >
@@ -51,6 +52,7 @@
 - 支持引用外部音乐、外部视频、外部链接
 - 支持引用豆瓣读书、豆瓣电影
 - 支持点赞、评论，可在后台开启/关闭评论功能
+- 评论和内容编辑支持 Artalk / OwO 表情包数据源，默认加载 Artalk 社区表情包；图片表情会以安全 token 存入内容并在展示时还原为图片
 
 ### 文件上传
 
@@ -101,6 +103,16 @@
 JWT_KEY=your_secret_key
 LOG_LEVEL=info
 ```
+
+### 表情包配置
+
+表情包默认使用 Artalk 社区表情包：
+
+```text
+https://cdn.jsdelivr.net/gh/ArtalkJS/Emoticons/grps/default.json
+```
+
+管理员可以进入后台 `系统设置 -> 评论表情包 JSON 地址` 修改表情包源。支持填写单个 Artalk / OwO 表情包 JSON 地址、一行一个地址，也支持直接粘贴 Artalk / OwO JSON；JSON 数组里可以混合本地分组对象和远程表情包地址。Artalk 表情包既支持 `[{ "name": "...", "type": "...", "items": [...] }]` 分组数组，也支持 `{ "name": "...", "type": "...", "items": [...] }` 单个分组对象。
 
 ### 使用 Docker Cli 启动
 

@@ -62,6 +62,7 @@ func migrateTo3(tx *gorm.DB, log zerolog.Logger) {
 		}
 		item.EnableGoogleRecaptcha = false
 		item.EnableComment = true
+		item.CommentEmoticonJson = "https://cdn.jsdelivr.net/gh/ArtalkJS/Emoticons/grps/default.json"
 		item.MaxCommentLength = 120
 		item.MaxCommentLength = 300
 		item.CommentOrder = "desc"

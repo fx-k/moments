@@ -58,7 +58,7 @@
         <UIcon class="text-slate-500 dark:text-white/60 w-6 h-6 animate-bounce absolute right-2 bottom-1 cursor-pointer select-none" name="i-carbon-face-satisfied" @click="toggleEmoji"/>
       </div>
 
-      <Emoji v-if="emojiShow" @selected="emojiSelected" @close="emojiShow=false"/>
+      <Emoji v-if="emojiShow" allow-images @selected="emojiSelected" @close="emojiShow=false"/>
 
       <USelectMenu v-model="selectedLabel" :options="existTags" show-create-option-when="always"
                    multiple searchable creatable placeholder="选择标签" class="my-2"

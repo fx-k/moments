@@ -308,6 +308,7 @@ import { memoChangedEvent, memoReloadEvent } from "~/event";
 import Comment from "~/components/Comment.vue";
 import { useGlobalState } from "~/store";
 import { md } from "~/utils";
+import { renderArtalkImageEmoticonTokens } from "~/utils/artalkEmoticons";
 
 const showMore = ref(false);
 const showMoreClicked = ref(false);
@@ -318,6 +319,7 @@ const contentRef = ref<HTMLDivElement | null>(null);
 const sysConfig = useState<SysConfigVO>("sysConfig");
 const route = useRoute();
 const { y } = useWindowScroll();
+const { imageMap, load: loadArtalkEmoticons } = useArtalkEmoticons();
 
 const getMemoMaxHeightStyle = () => {
   if (isDetailPage.value || showMoreClicked.value) {
@@ -439,6 +441,8 @@ const likeMemo = async (id: number) => {
 };
 
 onMounted(() => {
+  loadArtalkEmoticons();
+
   const likes = JSON.parse(
     localStorage.getItem("likeMemos") || "[]"
   ) as Array<number>;
@@ -456,7 +460,10 @@ onMounted(() => {
 const content = computed(() => {
   if (item.value.content && item.value.content.length > 0) {
     try {
-      return md.render(item.value.content);
+      return renderArtalkImageEmoticonTokens(
+        md.render(item.value.content),
+        imageMap.value,
+      );
     } catch (e) {
       console.log("内容渲染错误,请重新编辑", e);
       return "内容渲染错误,请重新编辑";
@@ -466,4 +473,14 @@ const content = computed(() => {
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.markdown-content :deep(.artalk-emoticon) {
+  display: inline-block;
+  max-width: min(8rem, 42vw);
+  max-height: 4rem;
+  margin: 0 0.125rem;
+  border-radius: 4px;
+  object-fit: contain;
+  vertical-align: -0.45em;
+}
+</style>
